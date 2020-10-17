@@ -159,7 +159,7 @@ The project tree can be organized in a complex way, the search for resources is 
 #### Example
 ***command.square.js*** :
 ```js
-module.exports = function () {
+module.exports = function (x) {
   return x ** 2
 }
 ```
