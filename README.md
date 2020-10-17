@@ -3,6 +3,8 @@
 `Bebel` is a simple, fast, and minimalist API builder.
 `Bebel protocol` is also a specification based on JSON format to define how a client should request, and how a server should respond to those requests. Bebel uses a functional paradigm, and can be used for computational sciences.
 
+[![NPM Version][npm-image]][npm-url]
+
 ## Specification of bebel protocol
 
 Bebel query is sent via the post method of http.
