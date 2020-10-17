@@ -1,7 +1,7 @@
 # Bebel — a simple http API builder
 
 `Bebel` is a simple, fast, and minimalist API builder.
-`Bebel protocol` is also a specification based on JSON format to define how a client should request, and how a server should respond to those requests.
+`Bebel protocol` is also a specification based on JSON format to define how a client should request, and how a server should respond to those requests. Bebel uses a functional paradigm, and can be used for computational sciences.
 
 ## Specification of bebel protocol
 
@@ -77,6 +77,46 @@ Body response of the command.
   }
 }
 ```
+```js
+// query
+["square", 10]
+
+// response
+{
+  "code": "success",
+  "info": "square executed",
+  "body": 100
+}
+```
+
+```js
+// query
+["sum", [2, 3, 4]]
+
+// response
+{
+  "code": "success",
+  "info": "sum executed",
+  "body": 9
+}
+```
+
+By combining the two instructions `square` and `sum` commands :
+```js
+// query
+["square", ["sum", [2, ["square", 3]]]]
+// equal to
+["square", ["sum", [2, 9]]]
+// equal to
+["square", 11]
+
+// response
+{
+  "code": "success",
+  "info": "square executed",
+  "body": 121
+}
+````
 
 ## Usage
 
