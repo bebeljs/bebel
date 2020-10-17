@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      body {
+        padding: 10px;
+        margin: 20px;
+      }
+      #code, #info, #body, textarea {
+        width: 80%;
+        border: 1px solid;
+        padding: 10px;
+        margin: 5px;
+        font-weight: normal;
+      }
+      .title {
+        font-size: 1.2em;
+      }
+      .conteneur{
+        font-weight: bold;
+        padding-top: 15px; 
+      }
+    </style>
+    <title>Bebel testing</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <span class="title">Bebel testing API</span>
+    <div class="conteneur">
+      <textarea id="command">["Iam", "Julien"]</textarea>
+      <br>
+      <button onclick="sendCommand()">Send command</button>
+    </div>
+    <div class="conteneur">
+      code
+      <div id="code"></div>
+    </div>
+    <div class="conteneur">
+      info
+      <div id="info"></div>
+    </div>
+    <div class="conteneur">
+      body
+      <div id="body"></div>
+    </div>
+    <script>
+      sendCommand = function() {
+        try{
+          let command = JSON.parse(document.getElementById('command').value)
+          axios.post('/', command)
+          .then(res => {
+            document.getElementById('code').innerHTML = res.data.code
+            document.getElementById('info').innerHTML = res.data.info
+            document.getElementById('body').innerHTML = JSON.stringify(res.data.body)
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+        }catch(e){
+          document.getElementById('code').innerHTML = 'Parsing error'
+          document.getElementById('info').innerHTML = ''
+          document.getElementById('body').innerHTML = e
+        }
+      }
+    </script>
+  </body>
+</html>

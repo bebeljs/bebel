@@ -119,7 +119,8 @@ Binds and listens for connections on the specified host and port.
 ```js
 api.start()
 ```
-Start bebel server, return a promise.
+Start bebel server, return result in a promise. By convention we call the result `THIS` :
+
 ```js
 api.start()
   .then(THIS => {
@@ -127,6 +128,7 @@ api.start()
   })
 ```
 We notice in this example that `meteo` command can be invoked directly as a function from the callback of the promise.
+In the example, `THIS` is an object which contains all the resources declared by the registry method. It also contains native methods like `sessionStart` invoked on each connection. `sessionStart` can be redefined by the registry method.
 
 ---------------------------
 ```js
@@ -135,8 +137,8 @@ api.registry(name, type, func)
 
 ```js
 var api = new API({ directory })
+api.registry('square', 'command', x => x ** 2)
 api.start().then(THIS => {
-  api.registry('square', 'command', x => x ** 2)
   console.log(THIS.square(9))
 })
 ```
@@ -151,9 +153,8 @@ There are 3 types of resources to build a bebel API :
   The Javascript code of 
   a function for `command` and `this` resources. The Javascript code of a class for `instance` resources.
 
-In the example, `THIS` is an object which contains all the resources declared by the registry method. It also contains native methods like `sessionStart` invoked on each connection. `sessionStart` can be redefined by the registry method.
-
-Any javascript file present in the root directory or will automatically be transformed into resources if it is named with the prefix `command.` or `this.` or `instance.`
+Any javascript file present in the root directory or will automatically be transformed into resources if it is named with the prefix `command.` or `this.` or `instance.` 
+The project tree can be organized in a complex way, the search for resources is **recursive**.
 
 #### Example
 ***command.square.js*** :
@@ -173,6 +174,17 @@ module.exports = class {
 }
 ```
 defines an instance named shareObject.
+
+## Emitters
+
+When 
+```js
+api.start().then(THIS => {
+  THIS.$eventEmitter.on('beforeExec', THIS => {
+    console.log(`I : ${THIS.$query.command}`)
+  })
+})
+```
 
 ## Installation
 

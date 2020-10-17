@@ -1,7 +1,7 @@
 {
   "name": "bebel",
-  "version": "1.0.1",
-  "description": "minimalist and fast framework to build web API",
+  "version": "1.0.3",
+  "description": "Minimalist and fast framework to build web API",
   "main": "index.js",
   "directories": {
     "lib": "lib"
@@ -27,6 +27,10 @@
   "author": {
     "name": "Julien Arlandis",
     "email": "julien@3dmap.fr"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bebeljs/bebel.git"
   },
   "license": "MIT"
 }
