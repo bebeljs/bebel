@@ -94,28 +94,28 @@ new Bebel({directory})
 Creates a bebel API.
 ```js
 const Bebel = require('bebel')
-const api = new Bebel(options, https_param)
+const api = new Bebel(options)
 ```
 * **options**: `Object`
   * **directory**: `String` (default: 'root')
   Path of directory that contains all commands.
+
+#### Methods ####
+
+```js
+api.listen(port, https_param)
+```
+  * **port**: `Number` (default: 8000)
+Binds and listens for connections on the specified host and port.
 * **https_param**: `Object` (default: false)
   * **key**: `String`
   Path of private key.
   * **cert**: `String`
   Path of certificate.
 
-If https_param is omitted the server is started in http.
+If `https_param` is omitted the server is started in http.
 
-#### Methods ####
-
-```js
-api.listen(port)
-```
-  * **port**: `Number` (default: 8000)
-Binds and listens for connections on the specified host and port.
 ---------------------------
-
 ```js
 api.start()
 ```
@@ -128,7 +128,7 @@ api.start()
   })
 ```
 We notice in this example that `meteo` command can be invoked directly as a function from the callback of the promise.
-In the example, `THIS` is an object which contains all the resources declared by the registry method. It also contains native methods like `sessionStart` invoked on each connection. `sessionStart` can be redefined by the registry method.
+`THIS` is an object which contains all the resources declared by the registry method. It also contains native methods like `sessionStart` invoked on each connection. `sessionStart` can be redefined by the registry method.
 
 ---------------------------
 ```js
@@ -153,7 +153,7 @@ There are 3 types of resources to build a bebel API :
   The Javascript code of 
   a function for `command` and `this` resources. The Javascript code of a class for `instance` resources.
 
-Any javascript file present in the root directory or will automatically be transformed into resources if it is named with the prefix `command.` or `this.` or `instance.` 
+Any javascript file present in the root directory will automatically be transformed into resources if it is named with the prefix `command.` or `this.` or `instance.` 
 The project tree can be organized in a complex way, the search for resources is **recursive**.
 
 #### Example
@@ -175,15 +175,58 @@ module.exports = class {
 ```
 defines an instance named shareObject.
 
-## Emitters
+-----------------------------
 
-When 
+#### THIS
+All resources are directly linked to this object, it also has some native properties :
+
+  * **$express**: `Object`
+  Refers to the [express](https://www.npmjs.com/package/) instance that manages the http socket.
+
+  * **$query**: `Object`
+  Refers to the connexion of the command.
+    * **req**: `Object Express`
+    Request of query.
+    * **res**: `Object Express`
+    Response of query.
+    * **session**: `Object`
+    Session of connection.
+    * **command**: `String`
+    Name of the command.
+    * **param**: `Object`
+    Parameter of the command at bebel format.
+    * **response**: `Object`
+    Response of the command at bebel format.
+
+  * **$eventEmitter**: `Object`
+    * **onStart**
+    This event is triggered when http(s) server starts.
+    * **beforeExec**
+    This event is triggered before command execution.
+    * **afterExec**
+    This event is triggered after command execution.
+
+#### Example
+
+To call a function before each command execution :
 ```js
 api.start().then(THIS => {
   THIS.$eventEmitter.on('beforeExec', THIS => {
     console.log(`I : ${THIS.$query.command}`)
   })
 })
+```
+However, it is preferable to link the events in an instance resource :
+
+**instance.linkEvent.js**
+```js
+module.exports = class {
+  constructor (application) {
+    application.$eventEmitter.on('onStart', THIS => THIS.onStart())
+    application.$eventEmitter.on('beforeExec', THIS => THIS.beforeExec())
+    application.$eventEmitter.on('afterExec', THIS => THIS.afterExec())
+  }
+}
 ```
 
 ## Installation

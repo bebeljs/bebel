@@ -4,7 +4,7 @@
  * MIT Licensed
  */
 
-const API = require('../lib/bebel')
+const API = require('bebel')
 const directory = 'example'
 const port = 8000
 
