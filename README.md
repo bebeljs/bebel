@@ -245,6 +245,9 @@ All resources are directly linked to this object, it also has some native proper
     This event is triggered before command execution.
     * **afterExec**
     This event is triggered after command execution.
+    
+  * **$rootDirectory**: `String`
+  Path of directory that contains all commands.
 
 #### Example
 
