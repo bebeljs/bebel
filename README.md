@@ -125,7 +125,7 @@ const Bebel = require('bebel')
 const directory = 'example'
 const port = 8000
 
-new Bebel({directory})
+new Bebel({ directory })
   .listen(port)
   .start()
 ```
