@@ -220,7 +220,8 @@ defines an instance named shareObject.
 api.server
 ```
 get http server of bebel API.
------------------------------
+
+---------------------------
 
 #### THIS
 All resources are directly linked to this object, it also has some native properties :
