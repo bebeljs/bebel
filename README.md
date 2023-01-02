@@ -215,6 +215,11 @@ module.exports = class {
 ```
 defines an instance named shareObject.
 
+---------------------------
+```js
+api.server
+```
+get http server of bebel API.
 -----------------------------
 
 #### THIS
