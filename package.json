@@ -1,6 +1,6 @@
 {
   "name": "bebel",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Minimalist and fast framework to build web API",
   "main": "index.js",
   "directories": {
